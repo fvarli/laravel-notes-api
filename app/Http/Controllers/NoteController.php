@@ -22,7 +22,8 @@ class NoteController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->noteService->getAllNotes());
+        $notes = $this->noteService->getAllNotes();
+        return $this->success($notes);
     }
 
     /**
@@ -30,7 +31,8 @@ class NoteController extends Controller
      */
     public function store(NoteRequest $request): JsonResponse
     {
-        return response()->json($this->noteService->createNote($request->validated()), 201);
+        $notes = $this->noteService->createNote($request->validated());
+        return $this->success($notes, 'Note created successfully.', 201);
     }
 
     /**
@@ -38,7 +40,8 @@ class NoteController extends Controller
      */
     public function show(Note $note): JsonResponse
     {
-        return response()->json($this->noteService->getNoteById($note->id));
+        $notes = $this->noteService->getNoteById($note->id);
+        return $this->success($notes);
     }
 
     /**
@@ -46,8 +49,8 @@ class NoteController extends Controller
      */
     public function update(NoteRequest $request, Note $note): JsonResponse
     {
-        $this->noteService->updateNote($note, $request->validated());
-        return response()->json(['message' => 'Note updated successfully.']);
+        $note = $this->noteService->updateNote($note, $request->validated());
+        return $this->success($note, 'Note updated successfully.');
     }
 
     /**
@@ -56,6 +59,6 @@ class NoteController extends Controller
     public function destroy(Note $note): JsonResponse
     {
         $this->noteService->deleteNote($note);
-        return response()->json(['message' => 'Note deleted successfully.']);
+        return $this->success(null, 'Note deleted successfully.');
     }
 }

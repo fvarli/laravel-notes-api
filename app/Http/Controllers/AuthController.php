@@ -38,20 +38,20 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        return response()->json([
+        return $this->success([
             'access_token' => $token,
             'token_type' => 'Bearer',
-        ], 200);
+        ], "Login successful");
     }
 
     public function logout(Request $request): JsonResponse
     {
         $this->authService->logout($request);
-        return response()->json(['message' => 'Logged out successfully']);
+        return $this->success(null, "Logged out successfully");
     }
 
     public function user(Request $request): JsonResponse
     {
-        return response()->json($request->user());
+        return $this->success($request->user(), "User data retrieved successfully");
     }
 }
