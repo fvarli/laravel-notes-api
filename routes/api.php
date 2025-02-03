@@ -18,14 +18,18 @@ use App\Http\Controllers\NoteController;
 */
 
 Route::prefix('v1')->group(function () {
+    // Public authentication routes
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
+    // Protected routes (Require authentication)
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/user', [AuthController::class, 'user']);
-    });
 
-    Route::apiResource('notes', NoteController::class)->middleware('auth:sanctum');
-    Route::apiResource('categories', CategoryController::class)->middleware('auth:sanctum');
+        Route::middleware(['throttle:10,1'])->group(function () {
+            Route::apiResource('notes', NoteController::class);
+            Route::apiResource('categories', CategoryController::class);
+        });
+    });
 });
