@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class NoteRequest extends FormRequest
+class NoteRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {

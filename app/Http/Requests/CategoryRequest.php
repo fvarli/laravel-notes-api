@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class CategoryRequest extends FormRequest
+class CategoryRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
